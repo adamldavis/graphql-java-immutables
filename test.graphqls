@@ -1,0 +1,26 @@
+
+scalar Date
+scalar DateTime
+
+type Query {
+  user: User
+}
+
+type User {
+  created: Date!
+  id: ID!
+  name: String!
+  type: UserType!
+  events: [Event!]
+}
+
+type Event {
+  when: DateTime!
+  type: String!
+  comments: String
+}
+
+enum UserType {
+    USER
+    ADMIN
+}
