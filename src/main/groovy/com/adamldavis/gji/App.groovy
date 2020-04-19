@@ -3,12 +3,43 @@
  */
 package com.adamldavis.gji
 
+import com.adamldavis.gji.generation.CodeGenerator
+import com.adamldavis.gji.generation.ModelCodeGenerator
+import com.adamldavis.gji.model.Root
+import com.adamldavis.gji.processing.SchemaScriptBase
+import org.codehaus.groovy.control.CompilerConfiguration
+
 class App {
-    String getGreeting() {
-        return 'Hello world.'
+
+    final CodeGenerator codeGenerator = new ModelCodeGenerator()
+
+    void process(File groovyFile) {
+        def compilerConfiguration = new CompilerConfiguration()
+        compilerConfiguration.setScriptBaseClass(SchemaScriptBase.class.name)
+        GroovyShell shell = new GroovyShell(compilerConfiguration)
+        Root root = shell.evaluate(groovyFile)
+        // TODO read config
+        codeGenerator.gen(new Config(), root)
     }
 
     static void main(String[] args) {
-        println new App().greeting
+        File file = new File(args[0])
+        println "File=$file"
+        File groovyFile = new File(file.name + '.groovy')
+        groovyFile.text = toGroovy(file.text)
+        new App().process(groovyFile)
+    }
+
+    static String toGroovy(String schema) {
+        schema.replace('!', '%1')
+                .replace(':', '%')
+                .replace('[', '')
+                .replace(']', '+1')
+                .replace('#', '//')
+                .replace('enum ', 'enumm.')
+                .replace('scalar ', 'scalar.')
+                .replace('type ', 'type.')
+                .replace('union ', 'union.')
+                .replace('mutation ', 'mutation.') + '\nprocess_graph_root'
     }
 }

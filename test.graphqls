@@ -3,7 +3,7 @@ scalar Date
 scalar DateTime
 
 type Query {
-  user: User
+  user(name: String): User
 }
 
 type User {

@@ -3,17 +3,35 @@
  */
 package com.adamldavis.gji
 
+import com.adamldavis.gji.processing.Element
+import com.adamldavis.gji.processing.SchemaScriptBase
+import org.codehaus.groovy.control.CompilerConfiguration
 import spock.lang.Specification
 
 class AppTest extends Specification {
-    def "application has a greeting"() {
-        setup:
-        def app = new App()
 
+    def "should convert to groovy"() {
         when:
-        def result = app.greeting
+        def result = App.toGroovy('type Groovy { names: [String!]! }')
 
         then:
-        result != null
+        result == 'type.Groovy { names% String%1+1%1 }\nprocess_graph_root'
+    }
+
+    def "should create elements"() {
+        given:
+        def groovy = 'type.Groovy { names% String%1+1 }'
+        def compilerConfiguration = new CompilerConfiguration()
+        compilerConfiguration.setScriptBaseClass(SchemaScriptBase.class.name)
+        GroovyShell shell = new GroovyShell(compilerConfiguration)
+        when:
+        Element element = shell.evaluate(groovy)
+        then:
+        element.children.size() == 1
+        element.value == 'type'
+        element.attributes == [new Element.Attribute('Groovy')]
+        element.children.first().value == 'names'
+        element.children.first().attributes == [new Element.Attribute('String'),
+                new Element.Attribute(Element.NON_NULL), new Element.Attribute(Element.ARRAY)]
     }
 }
