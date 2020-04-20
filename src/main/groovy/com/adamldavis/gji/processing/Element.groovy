@@ -1,8 +1,6 @@
 package com.adamldavis.gji.processing
 
 import groovy.transform.Canonical
-import groovy.transform.EqualsAndHashCode
-import groovy.transform.TupleConstructor
 
 @Canonical
 class Element {
@@ -14,8 +12,7 @@ class Element {
     final List<Element> children = []
     final List<Attribute> attributes = []
 
-    @EqualsAndHashCode
-    @TupleConstructor
+    @Canonical
     static class Attribute {
         String value
     }

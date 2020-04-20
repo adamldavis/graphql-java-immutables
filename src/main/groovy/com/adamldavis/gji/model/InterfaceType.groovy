@@ -1,16 +1,18 @@
 package com.adamldavis.gji.model
 
+import com.adamldavis.gji.processing.Element
 import groovy.transform.Immutable
 import groovy.transform.builder.Builder
 import groovy.transform.builder.InitializerStrategy
 
 @Immutable(copyWith = true)
 @Builder(builderStrategy = InitializerStrategy)
-class Property {
+class InterfaceType extends BaseType {
 
     String name
-    String type
-    boolean nullable
-    boolean array
+    List<Property> properties
 
+    static InterfaceType from(final Element element) {
+        new InterfaceType(element.value, properties(element.children))
+    }
 }

@@ -36,10 +36,12 @@ class App {
                 .replace('[', '')
                 .replace(']', '+1')
                 .replace('#', '//')
-                .replace('enum ', 'enumm.')
-                .replace('scalar ', 'scalar.')
-                .replace('type ', 'type.')
-                .replace('union ', 'union.')
-                .replace('mutation ', 'mutation.') + '\nprocess_graph_root'
+                .replaceAll('enum +', 'x0.enum.')
+                .replaceAll('scalar +', 'x0.scalar.')
+                .replaceAll('type +', 'x0.type.')
+                .replaceAll('interface +', 'x0.interface.')
+                .replaceAll(' +implements +', '.implements_') //x0.type.Foo.implements_Bar {
+                .replaceAll('union +', 'x0.union.')
+                .replaceAll('mutation +', 'x0.mutation.') + '\nprocess_graph_root'
     }
 }

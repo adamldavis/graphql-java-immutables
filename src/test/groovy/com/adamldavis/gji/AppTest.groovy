@@ -15,10 +15,10 @@ class AppTest extends Specification {
         def result = App.toGroovy('type Groovy { names: [String!]! }')
 
         then:
-        result == 'type.Groovy { names% String%1+1%1 }\nprocess_graph_root'
+        result == 'x0.type.Groovy { names% String%1+1%1 }\nprocess_graph_root'
     }
 
-    def "should create elements"() {
+    def "should create type elements"() {
         given:
         def groovy = 'type.Groovy { names% String%1+1 }'
         def compilerConfiguration = new CompilerConfiguration()
@@ -33,5 +33,24 @@ class AppTest extends Specification {
         element.children.first().value == 'names'
         element.children.first().attributes == [new Element.Attribute('String'),
                 new Element.Attribute(Element.NON_NULL), new Element.Attribute(Element.ARRAY)]
+    }
+
+    def "should create input elements"() {
+        given:
+        def groovy = 'input.Groovy { version% Version%1 \n num% Int }'
+        def compilerConfiguration = new CompilerConfiguration()
+        compilerConfiguration.setScriptBaseClass(SchemaScriptBase.class.name)
+        GroovyShell shell = new GroovyShell(compilerConfiguration)
+        when:
+        Element element = shell.evaluate(groovy)
+        then:
+        element.children.size() == 2
+        element.value == 'input'
+        element.attributes == [new Element.Attribute('Groovy')]
+        element.children.first().value == 'version'
+        element.children.first().attributes == [new Element.Attribute('Version'),
+                                                new Element.Attribute(Element.NON_NULL)]
+        element.children.last().value == 'num'
+        element.children.last().attributes.last() == new Element.Attribute('Int')
     }
 }
