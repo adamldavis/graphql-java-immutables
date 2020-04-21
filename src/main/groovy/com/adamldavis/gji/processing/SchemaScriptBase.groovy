@@ -1,5 +1,6 @@
 package com.adamldavis.gji.processing
 
+import com.adamldavis.gji.model.BaseType
 import com.adamldavis.gji.model.Enumm
 import com.adamldavis.gji.model.InputType
 import com.adamldavis.gji.model.InterfaceType
@@ -9,7 +10,9 @@ import com.adamldavis.gji.model.Root
 import com.adamldavis.gji.model.Scalar
 import com.adamldavis.gji.model.Type
 import com.adamldavis.gji.model.UnionType
+import groovy.transform.CompileStatic
 
+@CompileStatic
 class SchemaScriptBase extends Script {
 
     final Element root = new Element()
@@ -55,7 +58,7 @@ class SchemaScriptBase extends Script {
     }
 
     def getProcess_graph_root() {
-        def nameToTypeMap = [:]
+        final Map<String, BaseType> nameToTypeMap = [:]
         def scalars = root.children.findAll { it.value == 'scalar' }.collect { element ->
             new Scalar(element.attributes[0].value)
         }
@@ -81,12 +84,15 @@ class SchemaScriptBase extends Script {
         new Root(Root.createInitializer()
                 .scalars(scalars)
                 .enums(enumms)
-                .types(interfaces + types + unions + inputs)
+                .types(types)
+                .inputTypes(inputs)
+                .interfaceTypes(interfaces)
+                .unionTypes(unions)
                 .queries(root.children.findAll { it.value == 'query' }.collect { element ->
-                    Query.from(element, nameToTypeMap)
+                    Query.from(element)
                 })
                 .mutations(root.children.findAll { it.value == 'mutation' }.collect { element ->
-                    Mutation.from(element, nameToTypeMap)
+                    Mutation.from(element)
                 }))
     }
 

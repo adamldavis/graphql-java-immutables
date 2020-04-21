@@ -8,13 +8,13 @@ class InputType extends BaseType {
 
     String name
     List<Property> properties
-    InputType parent
+    InterfaceType parent
 
     boolean isInput() {
         true
     }
 
-    static InputType from(final Element element, final Map<String, InputType> nameToTypeMap) {
+    static InputType from(final Element element, final Map<String, BaseType> nameToTypeMap) {
         new InputType(element.attributes[0].value, properties(element.children),
                 (element.attributes.size() == 2) ? nameToTypeMap[element.attributes.last().value] : null)
     }

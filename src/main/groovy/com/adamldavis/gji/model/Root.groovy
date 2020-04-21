@@ -11,6 +11,9 @@ class Root {
     List<Scalar> scalars
     List<Query> queries
     List<Type> types
+    List<InterfaceType> interfaceTypes
+    List<InputType> inputTypes
+    List<UnionType> unionTypes
     List<Mutation> mutations
     List<Enumm> enums
 

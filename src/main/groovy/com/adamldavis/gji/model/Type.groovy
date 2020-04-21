@@ -10,12 +10,12 @@ class Type extends BaseType {
 
     String name
     List<Property> properties
-    Type parent
+    InterfaceType parent
 
-    static Type from(final Element element, final Map<String, Type> nameToTypeMap) {
+    static Type from(final Element element, final Map<String, BaseType> nameToTypeMap) {
         new Type(element.attributes[0].value,
                 properties(element.children),
-                (element.attributes.size() == 2) ? nameToTypeMap[element.attributes.last().value] : null)
+                (InterfaceType) ((element.attributes.size() == 2) ? nameToTypeMap[element.attributes.last().value] : null))
     }
 
 }

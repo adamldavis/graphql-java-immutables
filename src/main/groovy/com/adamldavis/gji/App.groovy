@@ -4,14 +4,14 @@
 package com.adamldavis.gji
 
 import com.adamldavis.gji.generation.CodeGenerator
-import com.adamldavis.gji.generation.ModelCodeGenerator
+import com.adamldavis.gji.generation.JavaModelCodeGenerator
 import com.adamldavis.gji.model.Root
 import com.adamldavis.gji.processing.SchemaScriptBase
 import org.codehaus.groovy.control.CompilerConfiguration
 
 class App {
 
-    final CodeGenerator codeGenerator = new ModelCodeGenerator()
+    final CodeGenerator codeGenerator = new JavaModelCodeGenerator()
 
     void process(File groovyFile) {
         def compilerConfiguration = new CompilerConfiguration()
