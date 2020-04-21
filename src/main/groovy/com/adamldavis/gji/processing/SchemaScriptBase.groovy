@@ -57,18 +57,18 @@ class SchemaScriptBase extends Script {
     def getProcess_graph_root() {
         def nameToTypeMap = [:]
         def scalars = root.children.findAll { it.value == 'scalar' }.collect { element ->
-            new Scalar(element.value)
+            new Scalar(element.attributes[0].value)
         }
         def enumms = root.children.findAll { it.value == 'enum' }.collect { element ->
-            new Enumm(element.value, element.children.collect { it.value })
+            new Enumm(element.attributes[0].value, element.children.collect { it.value })
         }
         def interfaces = root.children.findAll { it.value == 'interface' }.collect { element ->
-            def typeInterface = InterfaceType.from(element)
+            InterfaceType typeInterface = InterfaceType.from(element)
             nameToTypeMap[typeInterface.name] = typeInterface
             typeInterface
         }
         def types = root.children.findAll { it.value == 'type' }.collect { element ->
-            def type = Type.from(element, nameToTypeMap)
+            Type type = Type.from(element, nameToTypeMap)
             nameToTypeMap[type.name] = type
             type
         }

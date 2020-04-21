@@ -13,6 +13,11 @@ class ElementGenerator {
         root.children.add(element)
     }
 
+    def propertyMissing(String name) {
+        element.attributes << new Element.Attribute(name)
+        element
+    }
+
     def methodMissing(String name, args) {
         //type.User { name% String %1 }
         // type == element, 'User' == element.text, children == [name]

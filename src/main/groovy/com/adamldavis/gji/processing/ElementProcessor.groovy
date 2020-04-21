@@ -7,7 +7,9 @@ class ElementProcessor {
 
     final Element element
 
-    // name% String %1
+    // in types: name% String %1
+    // in enums: VALUE
+    // in union: Types1 | Type2 | Type3
     def propertyMissing(String name) {
         element.children << new Element(name)
         this
@@ -40,6 +42,10 @@ class ElementProcessor {
         Element last = element.children.last()
         element.children.remove(last)
         element.children.last().attributes << new Element.Attribute(last.value)
+        this
+    }
+    // in union: Types1 | Type2 | Type3
+    def or(ElementProcessor ep) {
         this
     }
 }

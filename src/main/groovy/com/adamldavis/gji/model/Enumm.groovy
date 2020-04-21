@@ -3,11 +3,9 @@ package com.adamldavis.gji.model
 import groovy.transform.Immutable
 
 @Immutable(copyWith = true)
-class Enumm {
+class Enumm extends BaseType {
 
     String name
     List<String> values
-
-    String toString() {name}
 
 }

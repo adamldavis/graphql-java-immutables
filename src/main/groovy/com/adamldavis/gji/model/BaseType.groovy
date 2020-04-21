@@ -6,6 +6,8 @@ abstract class BaseType {
 
     abstract String getName()
 
+    List<Property> getProperties() { [] }
+
     String toString() { getName() }
 
     static List<Property> properties(final List<Element> elements) {
