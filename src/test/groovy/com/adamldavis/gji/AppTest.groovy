@@ -20,7 +20,7 @@ class AppTest extends Specification {
 
     def "should create type elements"() {
         given:
-        def groovy = 'type.Groovy { names% String%1+1 }'
+        def groovy = 'x0.type.Groovy { names% String%1+1 }'
         def compilerConfiguration = new CompilerConfiguration()
         compilerConfiguration.setScriptBaseClass(SchemaScriptBase.class.name)
         GroovyShell shell = new GroovyShell(compilerConfiguration)
@@ -37,7 +37,7 @@ class AppTest extends Specification {
 
     def "should create input elements"() {
         given:
-        def groovy = 'input.Groovy { version% Version%1 \n num% Int }'
+        def groovy = 'x0.input.Groovy { version% Version%1 \n num% Int }'
         def compilerConfiguration = new CompilerConfiguration()
         compilerConfiguration.setScriptBaseClass(SchemaScriptBase.class.name)
         GroovyShell shell = new GroovyShell(compilerConfiguration)

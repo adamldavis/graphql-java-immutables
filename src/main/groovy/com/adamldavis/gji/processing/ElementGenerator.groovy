@@ -15,7 +15,7 @@ class ElementGenerator {
 
     def propertyMissing(String name) {
         element.attributes << new Element.Attribute(name)
-        element
+        this
     }
 
     def methodMissing(String name, args) {
@@ -29,8 +29,12 @@ class ElementGenerator {
         element
     }
 
-    def __generate(String name, Closure closure) {
-        element.attributes << new Element.Attribute(name)
+    private void __generate(String name, Closure closure) {
+        if (name.startsWith('implements_')) { //implements_Bar { ... }
+            element.attributes << new Element.Attribute(name.substring('implements_'.length()))
+        } else {
+            element.attributes << new Element.Attribute(name)
+        }
         closure.delegate = new ElementProcessor(element)
         closure.resolveStrategy = Closure.DELEGATE_FIRST
         closure()

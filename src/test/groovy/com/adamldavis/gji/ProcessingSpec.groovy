@@ -73,4 +73,18 @@ class ProcessingSpec extends Specification {
         result.enums.last().values == ['B1', 'B2']
     }
 
+    def "should process interfaces"() {
+        setup:
+        def base = new SchemaScriptBase()
+        when:
+        base.x0.interface.Language { versions% String%1+1 }
+        base.x0.type.Groovy.implements_Language { }
+        def result = base.getProcess_graph_root()
+        then:
+        result instanceof Root
+        result.types.size() == 1
+        result.types.first().name == 'Groovy'
+        result.types.first().parent.name == 'Language'
+    }
+
 }

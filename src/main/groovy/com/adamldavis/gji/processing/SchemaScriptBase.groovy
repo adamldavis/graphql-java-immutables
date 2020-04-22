@@ -16,45 +16,10 @@ import groovy.transform.CompileStatic
 class SchemaScriptBase extends Script {
 
     final Element root = new Element()
+    final SchemaBuilder schemaBuilder = new SchemaBuilder(root)
 
-    SchemaScriptBase getX0() {
-        this
-    }
-
-    def getType() {
-        new ElementGenerator('type', root)
-    }
-
-    def getInterface() {
-        new ElementGenerator('interface', root)
-    }
-
-    def getImplements() {
-        new ElementGenerator('implements', root)
-    }
-
-    def getEnum() {
-        new ElementGenerator('enum', root)
-    }
-
-    def getScalar() {
-        new ElementGenerator('scalar', root)
-    }
-
-    def getUnion() {
-        new ElementGenerator('union', root)
-    }
-
-    def getInput() {
-        new ElementGenerator('input', root)
-    }
-
-    def getQuery() {
-        new ElementGenerator('query', root)
-    }
-
-    def getMutation() {
-        new ElementGenerator('mutation', root)
+    SchemaBuilder getX0() {
+        schemaBuilder
     }
 
     def getProcess_graph_root() {
