@@ -3,8 +3,8 @@
  */
 package com.adamldavis.gji
 
-import com.adamldavis.gji.processing.Element
-import com.adamldavis.gji.processing.SchemaScriptBase
+import com.adamldavis.gji.processing.api.Element
+import com.adamldavis.gji.processing.api.SchemaScriptBase
 import org.codehaus.groovy.control.CompilerConfiguration
 import spock.lang.Specification
 

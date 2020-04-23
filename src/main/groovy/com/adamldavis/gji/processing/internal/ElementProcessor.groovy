@@ -1,5 +1,6 @@
-package com.adamldavis.gji.processing
+package com.adamldavis.gji.processing.internal
 
+import com.adamldavis.gji.processing.api.Element
 import groovy.transform.TupleConstructor
 
 @TupleConstructor

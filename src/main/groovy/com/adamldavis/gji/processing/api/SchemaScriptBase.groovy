@@ -1,4 +1,4 @@
-package com.adamldavis.gji.processing
+package com.adamldavis.gji.processing.api
 
 import com.adamldavis.gji.model.BaseType
 import com.adamldavis.gji.model.Enumm
@@ -10,6 +10,7 @@ import com.adamldavis.gji.model.Root
 import com.adamldavis.gji.model.Scalar
 import com.adamldavis.gji.model.Type
 import com.adamldavis.gji.model.UnionType
+import com.adamldavis.gji.processing.internal.SchemaBuilder
 import groovy.transform.CompileStatic
 
 @CompileStatic

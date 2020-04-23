@@ -1,6 +1,6 @@
 package com.adamldavis.gji.model
 
-import com.adamldavis.gji.processing.Element
+import com.adamldavis.gji.processing.api.Element
 import groovy.transform.Immutable
 import groovy.transform.builder.Builder
 import groovy.transform.builder.InitializerStrategy

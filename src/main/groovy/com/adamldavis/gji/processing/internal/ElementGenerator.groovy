@@ -1,4 +1,6 @@
-package com.adamldavis.gji.processing
+package com.adamldavis.gji.processing.internal
+
+import com.adamldavis.gji.processing.api.Element
 
 class ElementGenerator {
 
@@ -6,7 +8,7 @@ class ElementGenerator {
     Element root
     Element element
 
-    ElementGenerator(String type, Element root) {
+    protected ElementGenerator(String type, Element root) {
         this.type = type
         this.root = root
         element = new Element(type)

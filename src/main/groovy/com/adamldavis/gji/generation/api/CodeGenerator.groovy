@@ -1,4 +1,4 @@
-package com.adamldavis.gji.generation
+package com.adamldavis.gji.generation.api
 
 import com.adamldavis.gji.Config
 import com.adamldavis.gji.model.Root

@@ -2,8 +2,8 @@ package com.adamldavis.gji
 
 import com.adamldavis.gji.model.Property
 import com.adamldavis.gji.model.Root
-import com.adamldavis.gji.processing.Element
-import com.adamldavis.gji.processing.SchemaScriptBase
+import com.adamldavis.gji.processing.api.Element
+import com.adamldavis.gji.processing.api.SchemaScriptBase
 import spock.lang.Specification
 
 class ProcessingSpec extends Specification {

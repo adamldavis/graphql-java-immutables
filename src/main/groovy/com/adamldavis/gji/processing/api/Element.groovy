@@ -1,4 +1,4 @@
-package com.adamldavis.gji.processing
+package com.adamldavis.gji.processing.api
 
 import groovy.transform.Canonical
 

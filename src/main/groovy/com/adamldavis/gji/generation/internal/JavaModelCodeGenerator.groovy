@@ -1,11 +1,14 @@
-package com.adamldavis.gji.generation
+package com.adamldavis.gji.generation.internal
 
 import com.adamldavis.gji.Config
 import com.adamldavis.gji.OutputType
+import com.adamldavis.gji.generation.api.CodeGenerator
 import com.adamldavis.gji.model.Enumm
 import com.adamldavis.gji.model.Root
 import com.adamldavis.gji.model.Type
+import org.springframework.stereotype.Component
 
+@Component
 class JavaModelCodeGenerator implements CodeGenerator {
 
     static final String IMPORT_JACKSON = "import com.fasterxml.jackson.databind.annotation.*;"
@@ -16,6 +19,7 @@ class JavaModelCodeGenerator implements CodeGenerator {
     void gen(Config config, Root root) {
         def pack = config.packageName
         def rootDir = new File('src/main/java/' + pack.replace('.', '/'))
+        rootDir.mkdirs()
         root.types.each { type ->
             final String name = config.classnamePrefix + type.name + config.classnameSuffix
             new File(rootDir, "${name}.java").text = toCode(config, type)
@@ -30,7 +34,7 @@ class JavaModelCodeGenerator implements CodeGenerator {
         final StringBuilder sb = new StringBuilder(config.fileComment)
         sb.append("package ${config.packageName};\n\n")
         sb.append(config.javadocComment)
-        sb.append("pubic enum ${enumm.name} {\n\n")
+        sb.append("public enum ${enumm.name} {\n\n")
         enumm.values.each { sb.append('    ').append(it).append(',\n') }
         sb.append('\n}\n')
         sb.toString()
@@ -46,7 +50,7 @@ class JavaModelCodeGenerator implements CodeGenerator {
         if (isLombok) sb.append(IMPORT_LOMBOK).append('\n@Data\n')
 
         sb.append(config.javadocComment)
-        sb.append("pubic ${isLombok ? 'class' : 'interface'} $name {\n\n")
+        sb.append("public ${isLombok ? 'class' : 'interface'} $name {\n\n")
 
         type.properties.each { property ->
             def type1 = property.array ? "List<${property.type}>" : property.type

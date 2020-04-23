@@ -3,31 +3,52 @@
  */
 package com.adamldavis.gji
 
-import com.adamldavis.gji.generation.CodeGenerator
-import com.adamldavis.gji.generation.JavaModelCodeGenerator
+import com.adamldavis.gji.generation.api.CodeGenerator
+import com.adamldavis.gji.generation.internal.JavaModelCodeGenerator
 import com.adamldavis.gji.model.Root
-import com.adamldavis.gji.processing.SchemaScriptBase
+import com.adamldavis.gji.processing.api.SchemaScriptBase
 import org.codehaus.groovy.control.CompilerConfiguration
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.context.annotation.Bean
 
+import java.util.function.Consumer
+
+@SpringBootApplication
 class App {
 
-    final CodeGenerator codeGenerator = new JavaModelCodeGenerator()
-
-    void process(File groovyFile) {
-        def compilerConfiguration = new CompilerConfiguration()
-        compilerConfiguration.setScriptBaseClass(SchemaScriptBase.class.name)
-        GroovyShell shell = new GroovyShell(compilerConfiguration)
-        Root root = shell.evaluate(groovyFile)
-        // TODO read config
-        codeGenerator.gen(new Config(), root)
+    @Bean
+    Consumer<File> fileConsumer(CodeGenerator codeGenerator, Config config) {
+        return { File groovyFile ->
+            def compilerConfiguration = new CompilerConfiguration()
+            compilerConfiguration.setScriptBaseClass(SchemaScriptBase.class.name)
+            GroovyShell shell = new GroovyShell(compilerConfiguration)
+            Root root = shell.evaluate(groovyFile)
+            codeGenerator.gen(config, root)
+        }
     }
 
-    static void main(String[] args) {
-        File file = new File(args[0])
+    @ConditionalOnProperty("generator.file")
+    @Bean
+    File processedFile(Config config, Consumer<File> fileConsumer) {
+        final File file = config.file
         println "File=$file"
         File groovyFile = new File(file.name + '.groovy')
         groovyFile.text = toGroovy(file.text)
-        new App().process(groovyFile)
+        fileConsumer.accept(groovyFile)
+        return groovyFile
+    }
+
+    @ConditionalOnProperty(name = "generator.file", matchIfMissing = true)
+    @Bean
+    String missingFile() {
+        System.err.println "Missing 'generator.file' property!"
+        System.exit(1)
+    }
+
+    static void main(String[] args) {
+        SpringApplication.run(App, args)
     }
 
     static String toGroovy(String schema) {
