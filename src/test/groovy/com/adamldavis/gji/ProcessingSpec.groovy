@@ -87,4 +87,21 @@ class ProcessingSpec extends Specification {
         result.types.first().parent.name == 'Language'
     }
 
+    def "should process unions"() {
+        setup:
+        def base = new SchemaScriptBase()
+        when:
+        base.x0.type.Foo { value% String }
+        base.x0.type.Bar { value2% String }
+        base.x0.type.Baz { value3% String }
+        base.x0.union.Foobar = base.Foo | base.Bar | base.Baz
+        def result = base.getProcess_graph_root()
+        then:
+        result instanceof Root
+        result.types.size() == 3
+        result.unionTypes.size() == 1
+        result.unionTypes.first().name == 'Foobar'
+        result.unionTypes.first().types.toSet() == result.types.toSet()
+    }
+
 }

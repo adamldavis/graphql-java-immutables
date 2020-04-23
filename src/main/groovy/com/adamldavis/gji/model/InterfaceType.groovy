@@ -13,6 +13,6 @@ class InterfaceType extends BaseType {
     List<Property> properties
 
     static InterfaceType from(final Element element) {
-        new InterfaceType(element.value, properties(element.children))
+        new InterfaceType(element.attributes.first().value, properties(element.children))
     }
 }

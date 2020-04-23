@@ -18,6 +18,14 @@ class ElementGenerator {
         this
     }
 
+    // assignment used by union
+    def propertyMissing(String name, Element assignedElement) {
+        element.attributes << new Element.Attribute(name)
+        element.children.addAll(assignedElement.children)
+        element.children.add(new Element(assignedElement.value))
+        this
+    }
+
     def methodMissing(String name, args) {
         //type.User { name% String %1 }
         // type == element, 'User' == element.text, children == [name]

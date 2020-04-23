@@ -22,6 +22,10 @@ class SchemaScriptBase extends Script {
         schemaBuilder
     }
 
+    def propertyMissing(String name) {
+        new Element(name)
+    }
+
     def getProcess_graph_root() {
         final Map<String, BaseType> nameToTypeMap = [:]
         def scalars = root.children.findAll { it.value == 'scalar' }.collect { element ->

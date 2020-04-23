@@ -12,6 +12,11 @@ class Element {
     final List<Element> children = []
     final List<Attribute> attributes = []
 
+    Element or(final Element other) {
+        children << other
+        this
+    }
+
     @Canonical
     static class Attribute {
         String value
