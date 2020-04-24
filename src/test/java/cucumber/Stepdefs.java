@@ -53,7 +53,7 @@ public class Stepdefs {
     public void i_convert_to(final String typeString) {
         final OutputType outputType = Arrays.stream(OutputType.values())
                 .filter(outputType1 -> outputType1.name().toUpperCase().contains(typeString.toUpperCase()))
-                .findFirst().orElseThrow();
+                .findFirst().orElse(OutputType.IMMUTABLES);
         final String groovy = App.toGroovy(input);
         CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
         compilerConfiguration.setScriptBaseClass(SchemaScriptBase.class.getName());

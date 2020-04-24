@@ -31,6 +31,7 @@ class ElementProcessor {
     /* denotes array */
     def plus(Integer num) {
         element.children.last().attributes << new Element.Attribute(Element.ARRAY)
+        if (num == 0) element.children.last().attributes << new Element.Attribute(Element.NON_NULL)
         this
     }
     // name% String
