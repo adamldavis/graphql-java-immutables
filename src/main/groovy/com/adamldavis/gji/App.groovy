@@ -4,7 +4,6 @@
 package com.adamldavis.gji
 
 import com.adamldavis.gji.generation.api.CodeGenerator
-import com.adamldavis.gji.generation.internal.JavaModelCodeGenerator
 import com.adamldavis.gji.model.Root
 import com.adamldavis.gji.processing.api.SchemaScriptBase
 import org.codehaus.groovy.control.CompilerConfiguration
@@ -25,7 +24,10 @@ class App {
             compilerConfiguration.setScriptBaseClass(SchemaScriptBase.class.name)
             GroovyShell shell = new GroovyShell(compilerConfiguration)
             Root root = shell.evaluate(groovyFile)
-            codeGenerator.gen(config, root)
+            codeGenerator.generate(config, root).each { fileOutput ->
+                fileOutput.file.parentFile.mkdirs()
+                fileOutput.file.text = fileOutput.text
+            }
         }
     }
 
