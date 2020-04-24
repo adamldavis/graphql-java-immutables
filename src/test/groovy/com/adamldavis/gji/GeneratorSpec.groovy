@@ -76,4 +76,36 @@ public enum Animal {
 '''
     }
 
+    def "should generate Lombok Java file for Type"() {
+        setup:
+        def generator = new JavaModelCodeGenerator()
+        def config = new Config(fileComment: '/** test */\n', javadocComment: '/** Javadoc */',
+                outputType: OutputType.LOMBOK_JAVA)
+        when:
+        def root = new Root(Root.createInitializer()
+                .types([new Type('Foo', [new Property('name', 'Int', false, false)], null)])
+                .unionTypes([]).enums([]).interfaceTypes([]).inputTypes([]).queries([]).mutations([]).scalars([])
+        )
+        def results = generator.generate(config, root)
+        then:
+        results.size() == 1
+        results.first().file.name == 'FooDTO.java'
+        results.first().text == '''/** test */
+package org.example;
+
+import java.util.*;
+import com.fasterxml.jackson.databind.annotation.*;
+import lombok.*;
+/** Javadoc */
+@Value
+@JsonSerialize
+@JsonDeserialize
+public class FooDTO {
+
+    private Integer name;
+
+}
+'''
+    }
+
 }

@@ -59,7 +59,7 @@ class JavaModelCodeGenerator implements CodeGenerator {
         if (config.outputType == OutputType.IMMUTABLES)
             sb.append(IMPORT_IMMUTABLES).append('\n').append(config.javadocComment).append('\n@Immutable\n')
         if (isLombok)
-            sb.append(IMPORT_LOMBOK).append('\n').append(config.javadocComment).append('\n@Data\n')
+            sb.append(IMPORT_LOMBOK).append('\n').append(config.javadocComment).append('\n@Value\n')
 
         if (config.includeJacksonJson) sb.append("@JsonSerialize\n@JsonDeserialize\n")
         sb.append("public ${isLombok ? 'class' : 'interface'} $name {\n\n")
