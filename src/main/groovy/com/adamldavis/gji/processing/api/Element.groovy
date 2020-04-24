@@ -1,7 +1,10 @@
 package com.adamldavis.gji.processing.api
 
 import groovy.transform.Canonical
+import groovy.transform.Immutable
+import groovy.transform.ToString
 
+@ToString(includePackage = false)
 @Canonical
 class Element {
 
@@ -17,7 +20,8 @@ class Element {
         this
     }
 
-    @Canonical
+    @ToString(includePackage = false)
+    @Immutable
     static class Attribute {
         String value
     }

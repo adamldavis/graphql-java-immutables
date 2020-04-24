@@ -2,11 +2,11 @@ package com.adamldavis.gji.generation.api
 
 import com.adamldavis.gji.Config
 import com.adamldavis.gji.model.Root
-import groovy.transform.Canonical
+import groovy.transform.Immutable
 
 interface CodeGenerator {
 
-    @Canonical
+    @Immutable(knownImmutableClasses = [File.class])
     class FileOutput {
         File file
         String text
