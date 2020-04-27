@@ -28,11 +28,18 @@ public class Stepdefs {
     String input;
     Element rootElement;
     String output;
+    boolean includeJson = false;
+    String suffix = "";
     final List<CodeGenerator.FileOutput> fileOutputs = new ArrayList<>();
 
     @Given("Input is {string}")
     public void input_is(String string) {
         input = string.replace("\\n", "\n");
+    }
+
+    @Given("Suffix is {string}")
+    public void suffix_is(String suffix) {
+        this.suffix = suffix;
     }
 
     @When("I parse the input")
@@ -61,8 +68,8 @@ public class Stepdefs {
         Root root = (Root) shell.evaluate(groovy);
         Config config = new Config();
         config.setOutputType(outputType);
-        config.setIncludeJacksonJson(false);
-        config.setClassnameSuffix("DTO");
+        config.setIncludeJacksonJson(includeJson);
+        config.setClassnameSuffix(suffix);
         fileOutputs.addAll(codeGenerator.generate(config, root));
         output = fileOutputs.get(0).getText();
     }
