@@ -36,7 +36,7 @@ class JavaModelCodeGenerator implements CodeGenerator {
         fileOutputs
     }
 
-    private String toCode(Config config, Enumm enumm) {
+    private static String toCode(Config config, Enumm enumm) {
         final StringBuilder sb = new StringBuilder(config.fileComment)
         sb.append("package ${config.packageName};\n\n")
         sb.append(config.javadocComment)
@@ -46,7 +46,7 @@ class JavaModelCodeGenerator implements CodeGenerator {
         sb.toString()
     }
 
-    private String toCode(Config config, Root root, Type type) {
+    private static String toCode(Config config, Root root, Type type) {
         final String name = config.classnamePrefix + type.name + config.classnameSuffix
         boolean isLombok = config.outputType == OutputType.LOMBOK_JAVA
         final StringBuilder sb = new StringBuilder(config.fileComment)
@@ -77,13 +77,18 @@ class JavaModelCodeGenerator implements CodeGenerator {
         sb.toString()
     }
 
-    private String translateType(Config config, Root root, String type) {
+    private static String translateType(Config config, Root root, String type) {
         if (root.types.any { it.name == type } ||
                 root.inputTypes.any { it.name == type } ||
                 root.unionTypes.any { it.name == type }) return config.classnamePrefix + type + config.classnameSuffix
-        if ('Int' == type) return 'Integer'
-        if ('Bool' == type) return 'Boolean'
-        if ('ID' == type) return 'String'
-        return type
+        switch (type) {
+            case 'Int': return 'Integer'
+            case 'Bool': return 'Boolean'
+            case 'ID': return 'String'
+            case 'Date': return 'LocalDate'
+            case 'Time': return 'LocalTime'
+            case 'DateTime': return 'LocalDateTime'
+            default: return type
+        }
     }
 }

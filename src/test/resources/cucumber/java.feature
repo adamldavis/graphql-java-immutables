@@ -17,7 +17,9 @@ Feature: Type processing to Java
       | "type Foo { name: String }"                     | "@Immutable\public interface FooDTO {" | "public Optional<String> getName();"        |
       | "type Foo { ages: [Int] }"                      | "import java.util.*;"                  | "public Optional<List<Integer>> getAges();" |
       | "type Foo { names:[String]! }"                  | "@Immutable\public interface FooDTO {" | "public List<String> getNames();"           |
-      | "type Foo { date:Date! }"                       | "import java.time.*;"                  | "public Date getDate();"                    |
+      | "type Foo { date:Date! }"                       | "import java.time.*;"                  | "public LocalDate getDate();"               |
+      | "type Foo { date:DateTime! }"                   | "import java.time.*;"                  | "public LocalDateTime getDate();"           |
+      | "type Foo { time:Time! }"                       | "import java.time.*;"                  | "public LocalTime getTime();"               |
 
   Scenario Outline: Types are processed into corresponding Java Lombok Value code
     Given Input is <input>
@@ -35,4 +37,7 @@ Feature: Type processing to Java
       | "type Foo { name: String }"                     | "@Value\public class FooDTO {" | "private Optional<String> name;"        |
       | "type Foo { ages: [Int] }"                      | "import java.util.*;"          | "private Optional<List<Integer>> ages;" |
       | "type Foo { names:[String]! }"                  | "@Value\public class FooDTO {" | "private List<String> names;"           |
-      | "type Foo { date:Date! }"                       | "import java.time.*;"          | "private Date date;"                    |
+      | "type Foo { date:Date! }"                       | "import java.time.*;"          | "private LocalDate date;"               |
+      | "type Foo { date:DateTime! }"                   | "import java.time.*;"          | "private LocalDateTime date;"           |
+      | "type Foo { time:Time! }"                       | "import java.time.*;"          | "private LocalTime time;"               |
+    
