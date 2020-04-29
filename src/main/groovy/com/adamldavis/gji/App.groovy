@@ -9,6 +9,7 @@ import com.adamldavis.gji.processing.api.SchemaScriptBase
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 
@@ -42,7 +43,7 @@ class App {
         return groovyFile
     }
 
-    @ConditionalOnProperty(name = "generator.file", matchIfMissing = true)
+    @ConditionalOnMissingBean(name = "processedFile")
     @Bean
     String missingFile() {
         System.err.println "Missing 'generator.file' property!"
