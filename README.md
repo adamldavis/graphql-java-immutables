@@ -34,24 +34,57 @@ Where `your_file.graphql` points to a valid GraphQL schema.
 All the available configuration properties and the defaults are the following:
 
 ```groovy
-class Config {
     File file
-    OutputType outputType = OutputType.IMMUTABLES
+    OutputType outputType = IMMUTABLES or LOMBOK
     String fileComment = ''
     String javadocComment = ''
     boolean includeJacksonJson = true
     String classnameSuffix = 'DTO'
     String classnamePrefix = ''
     String packageName = 'org.example'
-}
 ```
 
+Each of these should be set using environment variable.
 For example, to set the package name:
 
 ```text
 export GENERATOR_PACKAGENAME=com.your_package
 ```
 
-##Output
+## Output
 
 Files are put under the `src/main/java` directory.
+
+## Examples
+
+For example, given the following GraphQL file:
+
+```
+scalar Date
+scalar DateTime
+
+type Query {
+  user(name: String): User
+}
+
+type User {
+  created: Date!
+  id: ID!
+  name: String!
+  type: UserType!
+  events: [Event!]
+}
+
+type Event {
+  when: DateTime!
+  type: String!
+  comments: String
+}
+
+enum UserType {
+    USER
+    ADMIN
+}
+```
+
+It will create a User class, Event class, and UserType enum.
