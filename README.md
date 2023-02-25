@@ -4,7 +4,7 @@ Generator for Immutable Java classes from GraphQL Schema.
 
 This project assists you in creating either a GraphQL server 
 or client in Java. You can configure it to create either 
-[Lombok](https://projectlombok.org/) or [Immutables](https://immutables.github.io/)
+[Lombok](https://projectlombok.org/) or [Immutables](https://immutables.github.io/) or Groovy
 based DTOs. 
 
 ## Getting Started
@@ -35,7 +35,7 @@ All the available configuration properties and the defaults are the following:
 
 ```groovy
     File file
-    OutputType outputType = IMMUTABLES or LOMBOK
+    OutputType outputType = IMMUTABLES or LOMBOK_JAVA or GROOVY
     String fileComment = ''
     String javadocComment = ''
     boolean includeJacksonJson = true
